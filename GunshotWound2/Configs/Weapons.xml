@@ -529,7 +529,6 @@
                 <Wound Key="LightBruise" Weight="40"/>
                 <Wound Key="MediumBruise" Weight="40"/>
                 <Wound Key="BluntAbrasion" Weight="15"/>
-                <Wound Key="HeavyBruise" Weight="5"/>
             </Wounds>
         </LightBlunt>
         <FistLoad DamageMult="1.1" BleedMult="1.5" PainMult="1.3" ChanceToCauseTrauma="0.3" HelmetSafeChance="0.95">

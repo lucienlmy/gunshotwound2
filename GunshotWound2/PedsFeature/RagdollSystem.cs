@@ -34,7 +34,7 @@ namespace GunshotWound2.PedsFeature {
 
         private void Process(EcsEntity entity, ref ConvertedPed convertedPed) {
             Ped ped = convertedPed.thisPed;
-            if (ped.IsInVehicle()) {
+            if (ped.IsInVehicle() || ped.IsOnFire) {
                 return;
             }
 

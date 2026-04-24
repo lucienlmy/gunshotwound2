@@ -217,7 +217,11 @@ namespace GunshotWound2 {
                 commonSystems.LateUpdate(sharedData.deltaTime);
                 commonSystems.CleanupUpdate(sharedData.deltaTime);
 #if GSW_PROFILING
-                profilerSample.Stop();
+                double tickTime = profilerSample.Stop();
+                string message = $"lastFrameTime={ProfilerSample.ConvertSecondsToMsString(sharedData.deltaTime)}\n"
+                                 + $"tickTime={ProfilerSample.ConvertMsToString(tickTime)}";
+
+                GTA.UI.Screen.ShowSubtitle(message);
 #endif
 #if DEBUG
                 RaycastDebugDrawer.Draw();

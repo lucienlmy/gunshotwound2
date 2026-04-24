@@ -4,7 +4,7 @@ namespace GunshotWound2.Utils {
     public sealed class ProfilerSample {
         private const double AVG_ALPHA = 0.1;
         private const double MAX_DECAY = 0.999;
-        private const string MS_FORMAT = "F";
+        private const string MS_FORMAT = "F3";
 
         private readonly string name;
         private readonly System.Diagnostics.Stopwatch stopwatch = System.Diagnostics.Stopwatch.StartNew();
@@ -26,7 +26,7 @@ namespace GunshotWound2.Utils {
             stopwatch.Restart();
         }
 
-        public void Stop() {
+        public double Stop() {
             stopwatch.Stop();
 
             double frameTimeInMs = stopwatch.Elapsed.TotalMilliseconds;
@@ -50,15 +50,25 @@ namespace GunshotWound2.Utils {
                 double isBadFrame = frameTimeInMs > avgFrameTime * 2.0 ? 1.0 : 0.0;
                 badFrameRatio = badFrameRatio * (1 - AVG_ALPHA) + isBadFrame * AVG_ALPHA;
             }
+
+            return frameTimeInMs;
         }
 
         public void OutputCurrentProfilingResults(ILogger logger) {
             logger.WriteInfo($"{name} results:");
-            logger.WriteInfo($"First frame:{firstFrameTime.ToString(MS_FORMAT)}ms");
-            logger.WriteInfo($"MIN:{minFrameTime.ToString(MS_FORMAT)}ms");
-            logger.WriteInfo($"AVG:{avgFrameTime.ToString(MS_FORMAT)}ms");
-            logger.WriteInfo($"MAX:{maxFrameTime.ToString(MS_FORMAT)}ms");
+            logger.WriteInfo($"First frame:{ConvertMsToString(firstFrameTime)}ms");
+            logger.WriteInfo($"MIN:{ConvertMsToString(minFrameTime)}ms");
+            logger.WriteInfo($"AVG:{ConvertMsToString(avgFrameTime)}ms");
+            logger.WriteInfo($"MAX:{ConvertMsToString(maxFrameTime)}ms");
             logger.WriteInfo($"BAD:{badFrameRatio.ToString("P")}");
+        }
+
+        public static string ConvertSecondsToMsString(float seconds) {
+            return ConvertMsToString(seconds * 1000d);
+        }
+
+        public static string ConvertMsToString(double ms) {
+            return ms.ToString(MS_FORMAT);
         }
     }
 }

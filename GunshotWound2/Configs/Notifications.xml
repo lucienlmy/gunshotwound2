@@ -2,13 +2,16 @@
 <Notifications>
     <Language Value="EN"/>
     <!-- Available languages: EN,RU,DE,FR,PL,KR,PT-BR,SPA,SWE,JP,ZH-HK,ZN-CN,FA.
-    All translations(except EN and RU) were made by community and can be inaccurate or incomplete.
+    All translations(except EN and RU) were made by the community and can be inaccurate or incomplete.
     You also may help to translate GSW2 to other languages here:
     https://docs.google.com/spreadsheets/d/1TY0nSEJMDmypkYrcVUBlMG3HIAEW075dCOtxXgW5UJ0/edit 
-    With your help more languages will be available in next release! -->
+    With your help more languages will be available in the next release! -->
+    
+    <TakeLanguageFromGame Value="TRUE"/>
+    <!-- If it's TRUE, GSW will refresh Language entry using game language -->
 
     <HelpTips Enabled="TRUE" TipDurationInSec="5" MinIntervalInSec="60" MaxIntervalInSec="180"/>
-    <!-- Help messages you will see in left upper corner. They will appear in interval between Min and Max. -->
+    <!-- Help messages you will see in the left upper corner. They will appear in interval between Min and Max. -->
 
     <HitNotification Enabled="TRUE"/>
     <!-- Notification that appears when you hit somebody, show which body part you hit and wound -->

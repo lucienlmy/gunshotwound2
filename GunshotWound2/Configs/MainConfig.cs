@@ -118,16 +118,23 @@ namespace GunshotWound2.Configs {
         }
 
         private void UpdateLanguageFromGame(string scriptPath, XDocument doc, string sectionName) {
-            if (Language != EN_LOCALE_NAME || GTA.Game.Language == GTA.Language.American) {
+            XElement root = doc.Element(NOTIFICATIONS_ROOT_NAME);
+            if (root == null) {
                 return;
             }
 
-            XElement languageNode = doc.Element(NOTIFICATIONS_ROOT_NAME)?.Element(LANGUAGE_NODE_NAME);
+            bool useGameLanguage = root.Element("TakeLanguageFromGame").GetBool();
+            if (!useGameLanguage) {
+                return;
+            }
+
+            XElement languageNode = root.Element(LANGUAGE_NODE_NAME);
             if (languageNode == null) {
                 return;
             }
 
             switch (GTA.Game.Language) {
+                case GTA.Language.American:          Language = "EN"; break;
                 case GTA.Language.French:            Language = "FR"; break;
                 case GTA.Language.German:            Language = "DE"; break;
                 case GTA.Language.Spanish:           Language = "SPA"; break;
@@ -143,6 +150,7 @@ namespace GunshotWound2.Configs {
             string nodeValue = languageNode.GetString();
             if (Language != nodeValue) {
                 languageNode.SetAttributeValue("Value", Language);
+
                 string path = GetPathForSection(scriptPath, sectionName);
                 doc.Save(path);
             }

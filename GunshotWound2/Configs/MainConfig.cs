@@ -19,7 +19,7 @@ namespace GunshotWound2.Configs {
 
         private const string NOTIFICATIONS_ROOT_NAME = "Notifications";
         private const string LANGUAGE_NODE_NAME = "Language";
-        private const string EN_LOCALE_NAME = "EN";
+        public const string EN_LOCALE_NAME = "EN";
 
         public readonly WoundConfig woundConfig;
         public readonly PedsConfig pedsConfig;

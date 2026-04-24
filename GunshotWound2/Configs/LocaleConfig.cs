@@ -118,7 +118,7 @@ namespace GunshotWound2.Configs {
         private void LoadLocalization(string language, Stream stream) {
             GswStopped = "Something went wrong with GSW2 :(";
 
-            localization = new Localization(defaultLanguage: "En");
+            localization = new Localization(defaultLanguage: MainConfig.EN_LOCALE_NAME);
             localization.SetDefaultAsFallback(true);
             localization.SetLanguage(language);
 

@@ -67,7 +67,7 @@
         }
 
         public static void RequestRagdoll(this ref ConvertedPed convertedPed, int timeInMs, RagdollType type = RagdollType.Relax) {
-            if (convertedPed.ragdollRequest.time > 0 && !convertedPed.permanentRagdoll) {
+            if (timeInMs > 0 && !convertedPed.permanentRagdoll) {
                 convertedPed.ragdollRequest = (timeInMs, type);
             }
         }

@@ -19,6 +19,7 @@ namespace GunshotWound2.Services {
         private readonly SortedList<int, string> postFxList = new(7);
 
         public bool useScreenEffects;
+        public float aimingShakeMult;
         public float aimingShakeAmplitude;
         public bool aimingShakeCritType;
 
@@ -42,7 +43,7 @@ namespace GunshotWound2.Services {
 
             if (needShaking) {
                 CameraShake type = aimingShakeCritType ? CameraShake.Drunk : CameraShake.Hand;
-                float amplitude = aimingShakeAmplitude >= 0f ? aimingShakeAmplitude : 0f;
+                float amplitude = aimingShakeAmplitude >= 0f ? aimingShakeMult * aimingShakeAmplitude : 0f;
 #if DEBUG
                 logger.WriteInfo($"Starting aiming shake type {type} with {amplitude.ToString("F2")} amplitude");
 #endif

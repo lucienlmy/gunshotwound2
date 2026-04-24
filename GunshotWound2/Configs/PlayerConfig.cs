@@ -22,6 +22,7 @@ namespace GunshotWound2.Configs {
         public bool UseScreenEffects;
         public float SelfHealingRate;
         public float RampagePainMult;
+        public float AimShakingMult;
 
         public string sectionName => "Player.xml";
 
@@ -39,6 +40,7 @@ namespace GunshotWound2.Configs {
             RealisticSpineDamage = root.Element(nameof(RealisticSpineDamage)).GetBool();
             PainSlowMo = root.Element(nameof(PainSlowMo)).GetFloat();
             UseScreenEffects = root.Element(nameof(UseScreenEffects)).GetBool();
+            AimShakingMult = root.Element(nameof(AimShakingMult)).GetFloat();
             MoneyForHelmet = root.Element("HelmetCost").GetInt();
             SelfHealingRate = root.Element(nameof(SelfHealingRate)).GetFloat();
             RampagePainMult = root.Element(nameof(RampagePainMult)).GetFloat();

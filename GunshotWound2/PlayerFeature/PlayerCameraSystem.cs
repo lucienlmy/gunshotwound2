@@ -22,6 +22,7 @@ namespace GunshotWound2.PlayerFeature {
             CameraService cameraService = sharedData.cameraService;
             if (sharedData.TryGetPlayer(out Entity entity)) {
                 ref ConvertedPed convertedPed = ref entity.GetComponent<ConvertedPed>(out bool exist);
+                cameraService.aimingShakeMult = sharedData.mainConfig.playerConfig.AimShakingMult;
                 cameraService.SetAimingShake(exist && convertedPed.thisPed.IsAiming);
 
                 float total = HealthFeature.CalculateSeverityOfAllBleedingWounds(entity);

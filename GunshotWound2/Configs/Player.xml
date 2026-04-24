@@ -33,6 +33,9 @@
     <!-- Use PostFX screen effects for more immersive experience.
     If you feel nausea or effects annoy you, set value to FALSE. -->
 
+    <AimShakingMult Value="1.0"/>
+    <!-- Multiplier for aim camera shaking when player have pain or arm trauma -->
+
     <PainShockThreshold Value="100.0"/>
     <!-- 100.0 means when pain will more than 100 player will fall unconscious -->
 

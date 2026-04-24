@@ -71,7 +71,7 @@
 
 #if DEBUG
                 sharedData.logger.WriteInfo($"Detect damage at {convertedPed.name}");
-                sharedData.logger.WriteInfo($"healthDiff = {healthDiff.ToString()}, armorDiff = {armorDiff.ToString()}");
+                sharedData.logger.WriteInfo($"healthDiff = {healthDiff}({ped.Health}), armorDiff = {armorDiff}");
 #endif
             }
         }

@@ -35,7 +35,8 @@ namespace GunshotWound2.HealthFeature {
                     continue;
                 }
 
-                if (health.kill) {
+                int oldHealth = convertedPed.thisPed.Health;
+                if (health.kill || Configs.WoundConfig.ConvertHealthFromNative(oldHealth) < 0) {
                     MarkPedAsDead(entity, ref convertedPed, ref health);
                     continue;
                 }
@@ -48,14 +49,12 @@ namespace GunshotWound2.HealthFeature {
                 int currentDiff = health.diff > 0 ? (int)Math.Floor(health.diff) : (int)Math.Ceiling(health.diff);
                 health.diff -= currentDiff;
 
-                int oldHealth = convertedPed.thisPed.Health;
-                int newHealth = oldHealth + currentDiff;
-
                 uint weaponHash = health.lastDamageWeapon;
                 if (weaponHash == 0) {
                     weaponHash = sharedData.mainConfig.weaponConfig.WEAPON_BLEEDING;
                 }
 
+                int newHealth = oldHealth + currentDiff;
                 PedEffects.SetHealth(convertedPed.thisPed, newHealth, convertedPed.lastAggressor, weaponHash);
                 health.lastDamageWeapon = 0;
 

@@ -13,8 +13,8 @@ namespace GunshotWound2.PedsFeature {
         private Stash<ConvertedPed> pedStash;
         private bool lastCutsceneState;
 
-        private CrClipDictionary maleDict;
-        private CrClipDictionary femaleDict;
+        private readonly CrClipDictionary maleDict;
+        private readonly CrClipDictionary femaleDict;
 
         public FacialIdleAnimSystem(SharedData sharedData) {
             this.sharedData = sharedData;
@@ -38,10 +38,6 @@ namespace GunshotWound2.PedsFeature {
 #if DEBUG
                 sharedData.logger.WriteInfo($"Cutscene state changed:{lastCutsceneState}");
 #endif
-
-                if (lastCutsceneState) {
-                    ForceCleanFacialIdleAnimForAll();
-                }
             }
 
             if (!lastCutsceneState) {

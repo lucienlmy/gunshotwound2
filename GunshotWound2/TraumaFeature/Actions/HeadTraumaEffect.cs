@@ -64,7 +64,7 @@ namespace GunshotWound2.TraumaFeature {
 
         protected override ConvertedPed.NaturalMotionBuilder GetNMBuilder() {
             return static (sharedData, _, ped) => {
-                float stiffness = sharedData.random.NextFloat(4f, 12f);
+                float stiffness = sharedData.random.NextFloat(1f, 12f);
                 STIFFNESS_MESSAGE.SetArgument("bodyStiffness", stiffness);
                 STIFFNESS_MESSAGE.SendTo(ped);
 

@@ -23,7 +23,7 @@ If you want **grounded, punishing gunplay** that rewards good tactics and medica
 
 1. **Install prerequisites**
    - Install **[Script Hook V](http://www.dev-c.com/gtav/scripthookv/)**.
-   - Install the **[nightly Script Hook V .NET](https://github.com/scripthookvdotnet/scripthookvdotnet-nightly/releases)** build.
+   - Install the **[Script Hook V .NET Enhanced](https://github.com/Chiheb-Bacha/ScriptHookVDotNetEnhanced/releases)** build.
 2. **Download GSW2**
    - Grab the latest GSW2 release archive.
 3. **Extract the mod**
@@ -39,7 +39,8 @@ If you want **grounded, punishing gunplay** that rewards good tactics and medica
    - If installed correctly, GSW2 will initialize automatically in the background.
    - You'll see greeting notification when GSW2 will be ready to play.
 
-If the mod doesn’t seem to start, double‑check ScriptHookVDotNet is installed (nightly), and verify there are no startup errors in your ScriptHookVDotNet logs.
+If the mod doesn’t seem to start, double‑check ScriptHookVDotNet Enhanced is installed, 
+and verify there are no startup errors in your ScriptHookVDotNet logs.
 
 ---
 
@@ -68,9 +69,6 @@ Currently, GSW2 focuses on **ped and player weapon damage** and **does not handl
 ## 📂 Frequently Asked Questions (FAQ)
 
 ### 🛠 Technical Issues & Installation
-
-**Q: I get the error "Could not load type 'EntityDamageRecordForReturnValue' from assembly 'ScriptHookVDotNet'..."**\
-**A:** You are using an outdated version of ScriptHookVDotNet. GSW2 requires the latest features of the **SHVDN Nightly Builds**. Please update your SHVDN to the latest dev version.
 
 **Q: My keys conflict with other mods. How can I change them?**\
 **A:** All controls are fully rebindable. Check the `Configs/KeyBinds.xml` file to set your preferred keys.

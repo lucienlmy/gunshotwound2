@@ -6,7 +6,6 @@ namespace GunshotWound2 {
     using System.Reflection;
     using System.Text;
     using System.Windows.Forms;
-    using Configs;
     using GTA;
     using Scellecs.Morpeh;
     using Utils;
@@ -17,7 +16,6 @@ namespace GunshotWound2 {
         private static readonly AssemblyName ASSEMBLY_NAME = Assembly.GetCallingAssembly().GetName();
         private static readonly string SCRIPT_NAME = $"{ASSEMBLY_NAME.Name}({ASSEMBLY_NAME.Version})";
         private static readonly string EXCEPTION_LOG_PATH = Path.Combine(Application.StartupPath, "GSW2Exception.log");
-        private static int PAUSE_POST;
 
 #if DEBUG
 
@@ -36,7 +34,6 @@ namespace GunshotWound2 {
 #endif
 
         private bool isStarted;
-        private bool isPaused;
         private bool cleanedUp;
 
         public GunshotWound2() {
@@ -46,8 +43,6 @@ namespace GunshotWound2 {
             commonSystems = ecsWorld.CreateSystemsGroup();
 
             KeyUp += OnKeyUp;
-            isPaused = false;
-
             Tick += OnTick;
             Aborted += Cleanup;
 
@@ -82,22 +77,13 @@ namespace GunshotWound2 {
             }
 
             if (sharedData.mainConfig.PauseKey.IsPressed(eventArgs)) {
-                TogglePause();
+                sharedData.pauseService.TogglePause();
                 return;
             }
 
-            if (isStarted && !isPaused && Game.Player.CanControlCharacter) {
+            if (isStarted && !sharedData.pauseService.State && Game.Player.CanControlCharacter) {
                 sharedData.inputListener.ConsumeKeyUp(eventArgs);
             }
-        }
-
-        private void TogglePause() {
-            isPaused = !isPaused;
-
-            LocaleConfig localeConfig = sharedData.localeConfig;
-            PAUSE_POST = isPaused
-                    ? sharedData.notifier.ReplaceOne(localeConfig.GswIsPaused, blinking: true, PAUSE_POST, Notifier.Color.YELLOW)
-                    : sharedData.notifier.ReplaceOne(localeConfig.GswIsWorking, blinking: true, PAUSE_POST, Notifier.Color.GREEN);
         }
 
         private void Cleanup(object sender, EventArgs e) {
@@ -208,7 +194,7 @@ namespace GunshotWound2 {
 
         #region TICK
         private void GunshotWoundTick() {
-            if (!isPaused) {
+            if (!sharedData.pauseService.State) {
 #if GSW_PROFILING
                 profilerSample.Start();
 #endif

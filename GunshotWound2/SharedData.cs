@@ -17,6 +17,7 @@
         public readonly UIService uiService;
         public readonly PedStateService pedStateService;
         public readonly ModelCheckerService modelChecker;
+        public readonly PauseService pauseService;
 
         public readonly WorldService worldService;
         public readonly MainConfig mainConfig;
@@ -43,6 +44,7 @@
             localeConfig = new LocaleConfig();
             pedStateService = new PedStateService(notifier, mainConfig, localeConfig);
             modelChecker = new ModelCheckerService();
+            pauseService = new PauseService(notifier, localeConfig, this.logger);
 
             playerEntity = null;
         }
@@ -64,7 +66,7 @@
             if (GTA.Game.IsCutsceneActive || !GTA.GameplayCamera.IsRendering) {
                 return false;
             }
-        
+
             GTA.Player player = GTA.Game.Player;
             return player.IsPlaying && player.CanControlCharacter;
         }

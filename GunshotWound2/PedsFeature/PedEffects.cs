@@ -161,7 +161,7 @@
             Function.Call(Hash.SET_AI_MELEE_WEAPON_DAMAGE_MODIFIER, modifier);
         }
 
-        public static void ResetMeleeDamageModifier() {
+        public static void ResetAiMeleeDamageModifier() {
             Function.Call(Hash.RESET_AI_MELEE_WEAPON_DAMAGE_MODIFIER);
         }
 
@@ -169,7 +169,7 @@
             Function.Call(Hash.SET_AI_WEAPON_DAMAGE_MODIFIER, modifier);
         }
 
-        public static void ResetWeaponDamageModifier() {
+        public static void ResetAiWeaponDamageModifier() {
             Function.Call(Hash.RESET_AI_WEAPON_DAMAGE_MODIFIER);
         }
 
@@ -191,6 +191,13 @@
 
         public static bool KnockOffVehicle(Ped ped) {
             return Function.Call<bool>(Hash.KNOCK_PED_OFF_VEHICLE, ped);
+        }
+
+        public static unsafe bool TryGetCurrentWeapon(Ped ped, out uint weaponHash) {
+            uint num;
+            var hasCurrent = Function.Call<bool>(Hash.GET_CURRENT_PED_WEAPON, ped, &num, true);
+            weaponHash = num;
+            return hasCurrent;
         }
     }
 }

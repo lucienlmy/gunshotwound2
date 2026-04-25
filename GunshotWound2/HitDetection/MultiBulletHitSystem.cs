@@ -31,7 +31,7 @@ namespace GunshotWound2.HitDetection {
                 }
 
                 float dealtDamage = hitData.armorDiff + hitData.healthDiff;
-                float damagePerPellet = MainConfig.DAMAGE_MODIFIER * Function.Call<float>(Hash.GET_WEAPON_DAMAGE, hitData.weaponHash);
+                float damagePerPellet = Function.Call<float>(Hash.GET_WEAPON_DAMAGE, hitData.weaponHash);
                 float possibleHits = dealtDamage / damagePerPellet;
 #if DEBUG
                 sharedData.logger.WriteInfo($"Possible hit count {possibleHits}, totalDmg={dealtDamage} perPellet={damagePerPellet}");

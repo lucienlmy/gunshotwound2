@@ -30,37 +30,54 @@ namespace GunshotWound2.HitDetection {
         }
 
         private void UpdateDamageModifiers(float modifier) {
-            bool pedsEnabled = !sharedData.mainConfig.pedsConfig.UseVanillaHealthSystem;
-            if (pedsEnabled) {
-                Player player = Game.Player;
-                PlayerEffects.SetMeleeDamageModifier(player, modifier);
-                PlayerEffects.SetWeaponDamageModifier(player, modifier);
+            bool pedsDisabled = sharedData.mainConfig.pedsConfig.UseVanillaHealthSystem;
+            bool playerDisabled = sharedData.mainConfig.playerConfig.UseVanillaHealthSystem;
+            if (pedsDisabled && playerDisabled) {
+                return;
             }
 
-            bool playerEnabled = !sharedData.mainConfig.playerConfig.UseVanillaHealthSystem;
-            if (playerEnabled) {
-                PedEffects.SetAiMeleeDamageModifier(modifier);
-                PedEffects.SetAiWeaponDamageModifier(modifier);
+            SetDamageModifierForAllWeapons(modifier);
+
+            float backModifier = 1f / modifier;
+            if (pedsDisabled) {
+                SetPlayerDamageModifier(backModifier);
             }
 
-            if (pedsEnabled || playerEnabled) {
-                float backModifier = 1f / modifier;
-                SetDamageModifierForIgnoreSet(backModifier);
+            if (playerDisabled) {
+                SetAiDamageModifier(backModifier);
             }
         }
 
-        private void SetDamageModifierForIgnoreSet(float modifier) {
-            foreach (uint hash in sharedData.mainConfig.weaponConfig.IgnoreSet) {
-                if (GTAHelpers.IsHumanWeapon(hash)) {
-                    Function.Call(Hash.SET_WEAPON_DAMAGE_MODIFIER, hash, modifier);
+        private void SetDamageModifierForAllWeapons(float modifier) {
+            WeaponConfig.Weapon[] weapons = sharedData.mainConfig.weaponConfig.Weapons;
+            for (int i = 0; i < weapons.Length; i++) {
+                foreach (uint weaponHash in weapons[i].Hashes) {
+                    if (GTAHelpers.IsHumanWeapon(weaponHash)) {
+                        Function.Call(Hash.SET_WEAPON_DAMAGE_MODIFIER, weaponHash, modifier);
+                    }
                 }
             }
         }
 
+        private static void SetPlayerDamageModifier(float modifier) {
+            Player player = Game.Player;
+            PlayerEffects.SetMeleeDamageModifier(player, modifier);
+            PlayerEffects.SetWeaponDamageModifier(player, modifier);
+        }
+
+        private static void SetAiDamageModifier(float modifier) {
+            PedEffects.SetAiMeleeDamageModifier(modifier);
+            PedEffects.SetAiWeaponDamageModifier(modifier);
+        }
+
+        private static void ResetAiDamageModifier() {
+            PedEffects.ResetAiMeleeDamageModifier();
+            PedEffects.ResetAiWeaponDamageModifier();
+        }
+
         private void ResetModifiers() {
             UpdateDamageModifiers(modifier: 1f);
-            PedEffects.ResetMeleeDamageModifier();
-            PedEffects.ResetWeaponDamageModifier();
+            ResetAiDamageModifier();
         }
 
         private void OnPauseStateChanged(bool isPaused) {

@@ -9,8 +9,6 @@ namespace GunshotWound2.HitDetection {
     using EcsWorld = Scellecs.Morpeh.World;
 
     public sealed class DamageModifierSystem : ISystem {
-        private const float BACK_MODIFIER = 1f / MainConfig.DAMAGE_MODIFIER;
-
         private readonly SharedData sharedData;
         public EcsWorld World { get; set; }
 
@@ -18,16 +16,17 @@ namespace GunshotWound2.HitDetection {
             this.sharedData = sharedData;
         }
 
-        public void OnAwake() { }
+        public void OnAwake() {
+            sharedData.pauseService.PauseStateChanged += OnPauseStateChanged;
+        }
 
         public void OnUpdate(float deltaTime) {
             UpdateDamageModifiers(MainConfig.DAMAGE_MODIFIER);
         }
 
         public void Dispose() {
-            UpdateDamageModifiers(modifier: 1f);
-            PedEffects.ResetMeleeDamageModifier();
-            PedEffects.ResetWeaponDamageModifier();
+            sharedData.pauseService.PauseStateChanged -= OnPauseStateChanged;
+            ResetModifiers();
         }
 
         private void UpdateDamageModifiers(float modifier) {
@@ -40,20 +39,35 @@ namespace GunshotWound2.HitDetection {
 
             bool playerEnabled = !sharedData.mainConfig.playerConfig.UseVanillaHealthSystem;
             if (playerEnabled) {
-                PedEffects.SetMeleeDamageModifier(modifier);
-                PedEffects.SetWeaponDamageModifier(modifier);
+                PedEffects.SetAiMeleeDamageModifier(modifier);
+                PedEffects.SetAiWeaponDamageModifier(modifier);
             }
 
             if (pedsEnabled || playerEnabled) {
-                CompensateDamageForIgnoreSet();
+                float backModifier = 1f / modifier;
+                SetDamageModifierForIgnoreSet(backModifier);
             }
         }
 
-        private void CompensateDamageForIgnoreSet() {
+        private void SetDamageModifierForIgnoreSet(float modifier) {
             foreach (uint hash in sharedData.mainConfig.weaponConfig.IgnoreSet) {
                 if (GTAHelpers.IsHumanWeapon(hash)) {
-                    Function.Call(Hash.SET_WEAPON_DAMAGE_MODIFIER, hash, BACK_MODIFIER);
+                    Function.Call(Hash.SET_WEAPON_DAMAGE_MODIFIER, hash, modifier);
                 }
+            }
+        }
+
+        private void ResetModifiers() {
+            UpdateDamageModifiers(modifier: 1f);
+            PedEffects.ResetMeleeDamageModifier();
+            PedEffects.ResetWeaponDamageModifier();
+        }
+
+        private void OnPauseStateChanged(bool isPaused) {
+            if (isPaused) {
+                ResetModifiers();
+            } else {
+                OnUpdate(deltaTime: 0f);
             }
         }
     }

@@ -157,7 +157,7 @@
             return Function.Call<bool>(Hash.IS_PED_GETTING_UP, ped);
         }
 
-        public static void SetMeleeDamageModifier(float modifier) {
+        public static void SetAiMeleeDamageModifier(float modifier) {
             Function.Call(Hash.SET_AI_MELEE_WEAPON_DAMAGE_MODIFIER, modifier);
         }
 
@@ -165,7 +165,7 @@
             Function.Call(Hash.RESET_AI_MELEE_WEAPON_DAMAGE_MODIFIER);
         }
 
-        public static void SetWeaponDamageModifier(float modifier) {
+        public static void SetAiWeaponDamageModifier(float modifier) {
             Function.Call(Hash.SET_AI_WEAPON_DAMAGE_MODIFIER, modifier);
         }
 
